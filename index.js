@@ -6,7 +6,7 @@ var gutil = require('gulp-util');
 var PluginError = gutil.PluginError;
 var map = require('event-stream').map;
 
-var FILE_DECL = /(?:href=|src=|url\()['|"]([^\s>"']+?)\?rev=([^\s>"']+?)['|"]/gi;
+var FILE_DECL = /(?:href=|src=|url\()['|"]([^\s"']+?)\?rev=([^\s>"']+?)['|"]/gi;
 
 var revPlugin = function revPlugin() {
 
@@ -50,10 +50,8 @@ var revPlugin = function revPlugin() {
             }
 
             try {
-              data = fs.readFileSync(dependencyPath);
-              hash = crypto.createHash('md5');
-              hash.update(data.toString(), 'utf8');
-              line = line.replace(groups[2], hash.digest('hex'));
+              var _rev = new Date().getTime();
+              line = line.replace(groups[2], _rev);
             }
             catch(e) {
               // fail silently.
